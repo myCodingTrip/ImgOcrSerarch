@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>路径检索</title>
+    <script th:src="@{/exif.js}"></script>
+    <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+    <!--<script type="application/javascript" th:src="@{{path}/scripts/app.js(path=${contextPath})}"></script>-->
+</head>
+<body>
+<div class="table-responsive">
+    <!--<div id="container" th:each="pic:${pics.subList(0, 50)}">
+       <div style="float: left">
+            <img th:src="${pic.path}" th:height="360px" th:title="${pic.path}"/>
+        </div>
+    </div>-->
+    <div id="container">
+        <img id="imgBoxTmp" hidden="hidden" th:height="360px"/>
+    </div>
+</div>
+</body>
+
+<script type="text/javascript" th:inline="javascript">
+    var page = 1;
+    var size = 50;
+    var pics = [[${pics}]];
+
+    $(document).ready(function () {
+        load();
+        dropDownLoad();
+    });
+
+    function load() {
+        console.log('load');
+        var subarray = pics.slice((page - 1) * size, page * size);
+        for (pic in subarray) {
+            var path = subarray[pic].path;
+            var img = $('#imgBoxTmp').clone();
+            img.removeAttr('id');
+            img.removeAttr('hidden');
+            img.attr('src', path);
+            img.attr('title', path);
+            transformPhoto(img);
+            // console.log(path);
+            $('#container').append(img);
+        }
+    }
+
+    //旋转照片
+    function transformPhoto(img) {
+        console.log('transformPhoto ' + img[0].exifdata);
+        EXIF.getData(img[0], function () {
+            var orientation = EXIF.getTag(this, 'Orientation');
+            if (orientation != undefined) {
+                var degree = ((orientation - 1) * 90) % 360;
+                if (degree % 180 != 0) {
+                    // console.log(degree);
+                    $(this).removeAttr('height');
+                    $(this).attr('width', '360px');
+                    // $(this).css('vertical-align', 'top');
+                    // imgBox.attr('height', '360px');
+                }
+                var transform = 'rotate(' + degree + 'deg)';
+                console.log('transform css');
+                $(this).css('transform', transform);
+                $(this).css('webkit-transform', transform);
+            }
+        });
+    }
+
+    //下拉加载
+    function dropDownLoad() {
+        //下拉加载
+        var totalHeight = $(document).height();//整个文档高度
+        var seeHeight = $(window).height();//浏览器可视窗口高度
+        var scrollTop = $(window).scrollTop();//浏览器可视窗口顶端距离网页顶端的高度（垂直偏移）
+        // console.log(totalHeight,seeHeight,thisBodyHeight,totalBodyHeight,thisWidth,thisDocumentWidth,thisBodyWidth,totalBodyWidth,scrollTop);
+        //添加滚动事件
+        $(window).scroll(function () {
+            scrollTop = $(window).scrollTop();
+            totalHeight = $(document).height();
+            // console.log(scrollTop,seeHeight,totalHeight)
+            if (scrollTop + seeHeight + 50 > totalHeight) {
+                console.log('dropDownLoad');
+                page++;
+                load();
+            }
+        });
+    }
+
+</script>
+
+</html>

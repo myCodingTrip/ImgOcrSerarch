@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>图片搜索</title>
+    <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+    <style type="text/css">
+        body {
+            height: 100%;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .middle {
+            text-align: center;
+            width: 100%;
+            height: 100px;
+            margin-top: 130px;
+        }
+
+        .input {
+            border: 1px solid #b6b6b6;
+            width: 474px;
+            height: 36px;
+            font-size: 20px;
+        }
+
+        .img {
+            align: middle;
+            border: 0;
+            height: 300px;
+        }
+
+        .submit {
+            background-color: #3385ff;
+            height: 38px;
+            font-size: 20px;
+            color: white;
+            border: 0
+        }
+    </style>
+</head>
+<body>
+
+<div class="middle">
+    <form id="myform" target="_blank">
+        <a href="https://www.baidu.com/" target="_blank" align="center">
+            <img src="/image/3美女/二次元/0174ef1a0ef41bd5629d98ab58da81cb38db3d0a.jpg" alt="Baidu" class="img"/>
+        </a>
+        <br/>
+        <input id="keyword" type="text" class="input" name="word"/>
+        <input id="pathSearch" type="submit" value="路径搜索" class="submit"/>
+        <input id="ocrSearch" type="submit" value="OCR搜索" class="submit"/>
+    </form>
+</div>
+<script>
+    $(function () {
+        $("#ocrSearch").click(function () {
+            var newUrl = '/search/' + $('#keyword').val();    //设置新提交地址
+            $("#myform").attr('action', newUrl);    //通过jquery为action属性赋值
+            $("#myform").submit();    //提交ID为myform的表单
+        });
+        $("#pathSearch").click(function () {
+            var newUrl = '/searchByPath/' + $('#keyword').val();    //设置新提交地址
+            $("#myform").attr('action', newUrl);    //通过jquery为action属性赋值
+            $("#myform").submit();    //提交ID为myform的表单
+        });
+    });
+</script>
+</body>
+</html>

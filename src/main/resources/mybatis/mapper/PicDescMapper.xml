@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.my.search.mapper.PicDescMapper">
+    <select id="search" resultType="com.my.search.bean.PicDesc">
+      select * from pic_desc where pic_desc like #{keyword}
+   </select>
+    <select id="searchByPath" resultType="com.my.search.bean.PicDesc">
+      select path from pic_desc where path like #{keyword} order by path
+   </select>
+    <select id="searchByPathPaged" resultType="com.my.search.bean.PicDesc">
+      select path from pic_desc where path like #{keyword} limit #{start},#{pagesize}
+   </select>
+</mapper>
+
+        <!--public Employee getEmpById();-->
+
+        <!--public void insetEmp(Employee employee);-->
