@@ -114,7 +114,7 @@ public class PicDescController {
         sb.append(file.getName() + "<br/>");
 //        System.out.println(file.getName());
         tree(file, 1, sb);
-        System.out.println(sb);
+//        System.out.println(sb);
         model.addAttribute("data", sb.toString());
         return "lsr";
     }
