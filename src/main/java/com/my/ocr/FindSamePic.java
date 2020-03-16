@@ -5,6 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 根据文件大小寻找相同的文件
+ */
 public class FindSamePic {
     public static void main(String[] args) {
         List<File> files = Scanner.getPicFiles("e:/图片");

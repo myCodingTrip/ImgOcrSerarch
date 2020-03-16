@@ -5,7 +5,10 @@ import org.apache.commons.io.FileUtils;
 import java.io.File;
 import java.util.List;
 
-public class FileNameCleansing {
+/**
+ * 去除文件名的前缀
+ */
+public class FileNameCleaning {
     public static void main(String[] args) {
         String path = "E:\\图片\\1这些年\\2012";
         File rootFile = new File(path);

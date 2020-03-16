@@ -3,10 +3,7 @@ package com.my.ocr;
 import com.google.common.collect.Sets;
 
 import java.io.File;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -32,7 +29,7 @@ public class UpdatePicDesc {
 
         deleteObsolete(conn, dbSet, fileSet);
 
-        insertNew(conn, dbSet, fileSet, false);
+        insertNew(conn, dbSet, fileSet, true);
 
     }
 
@@ -74,14 +71,17 @@ public class UpdatePicDesc {
 //        insertSet.removeAll(dbSet);
         Set<String> insertSet = Sets.difference(fileSet, dbSet);
         System.out.println("insert: " + insertSet.size());
-        PreparedStatement insertPs = conn.prepareStatement("insert into pic_desc(path,pic_desc) values (?,?)");
+        PreparedStatement insertPs = conn.prepareStatement("insert into pic_desc(path,pic_desc,last_modified) values (?,?,?)");
         for (String path : insertSet) {
             String picDesc = null;
             if (ocrCheck) {
                 picDesc = OcrUtil.getPicDesc(path);
             }
+            //获取文件修改时间
+            Timestamp lastModified = new Timestamp(new File(path).lastModified());
             insertPs.setString(1, path);
             insertPs.setString(2, picDesc);
+            insertPs.setTimestamp(3, lastModified);
             insertPs.addBatch();
             System.out.println("insert: " + path);
         }

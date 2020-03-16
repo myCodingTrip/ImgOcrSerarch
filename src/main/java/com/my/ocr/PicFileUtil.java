@@ -8,6 +8,7 @@ import java.util.List;
 
 /**
  * 移动图片，同时更新数据库
+ * 已经不用了
  */
 public class PicFileUtil {
     public static void main(String[] args) throws SQLException, ClassNotFoundException {

@@ -38,7 +38,7 @@ public class OcrUtil {
         System.setProperty("aip.log4j.conf", "path/to/your/log4j.properties");
 
         // 调用接口
-        String path = "E:\\图片\\5游戏\\QQ截图20190623175759.png";
+        String path = "e:\\图片\\6 影视\\无名之辈\\Screenshot_2019-09-24-19-41-14-451_com.youku.phone.png";
         String desc = getPicDesc(path);
         System.out.println(desc);
     }
@@ -56,6 +56,7 @@ public class OcrUtil {
             if (descList.size() == 0) return null;
             return String.join("\n", descList);
         } catch (Exception e) {
+            System.out.println("error: " + path);
             System.out.println(res);
             e.printStackTrace();
             return null;
